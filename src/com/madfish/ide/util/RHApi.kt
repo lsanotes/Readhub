@@ -12,7 +12,6 @@ import org.apache.http.HttpStatus
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
-import kotlin.coroutines.experimental.buildSequence
 
 /**
  * Created by Roger™
@@ -31,7 +30,7 @@ class RHApi {
         }
 
         fun refreshAll(): ApiResult<Boolean> {
-            val apiSeq = buildSequence {
+            val apiSeq = sequence {
                 yieldAll(RHCategory.values().map { fetchLatestItems(it) })
             }
             return ApiResult(success = apiSeq.all { it.result == true })
